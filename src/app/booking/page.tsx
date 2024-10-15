@@ -1,8 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import getServerSession from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -12,28 +12,30 @@ import InputLabel from '@mui/material/InputLabel';
 import DateReserve from '../../components/DateReserve';
 import getUserProfile from '@/libs/getUserProfile';
 
-export default async function BookingPage() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user.token) return null;
+interface ProfileData {
+  name: string;
+  email: string;
+  tel: string;
+  createdAt: string;
+}
 
-  const [hospital, setHospital] = React.useState('');
+export default function BookingPage() {
+  const { data: session } = useSession();
+  const [hospital, setHospital] = useState('');
 
-  const profile = await getUserProfile(session.user.token);
-  var createdAt = new Date(profile.data.createdAt);
+  console.log(session);
 
-  const handleHospitalChange = (event: any) => {
-    setHospital(event.target.value);
+  const handleHospitalChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setHospital(event.target.value as string);
   };
 
   return (
     <div className="container mx-auto">
-      {profile && (
+      {session && (
         <div className="bg-white rounded-md shadow-lg p-6 mb-8">
           <h2 className="text-2xl font-bold mb-4">User Profile</h2>
-          <p><strong>Name:</strong> {profile.name}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <p><strong>Tel:</strong> {profile.tel}</p>
-          <p><strong>Member Since:</strong> {createdAt.toDateString()}</p>
+          <p><strong>Name:</strong> {session.user.name}</p>
+          <p><strong>Email:</strong> {session.user.email}</p>
         </div>
       )}
       <div className="bg-gray-100 rounded-md shadow-lg pb-8 w-full">

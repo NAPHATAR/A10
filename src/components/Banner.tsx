@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react'; // Import useSession to get session data
+import { useSession } from 'next-auth/react'; 
 
 const bannerImages = [
   '/img/cover.jpg',
@@ -13,7 +13,7 @@ const bannerImages = [
 ];
 
 export default function Banner() {
-  const { data: session } = useSession(); // Get session data
+  const { data: session } = useSession(); 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const router = useRouter();
 
