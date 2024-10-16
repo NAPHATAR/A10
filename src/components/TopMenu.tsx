@@ -2,12 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import TopMenuItem from './TopMenuItem';
+import { useSession } from 'next-auth/react';
 
-export default async function TopMenu() {
-  const session = await getServerSession(authOptions);
+export default function TopMenu() {
+  const { data: session } = useSession();
 
   return (
     <div className="bg-white shadow-md">

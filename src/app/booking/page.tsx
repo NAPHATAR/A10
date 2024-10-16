@@ -1,8 +1,4 @@
-'use client';
-
 import * as React from 'react';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -10,32 +6,26 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import DateReserve from '../../components/DateReserve';
+import getServerSession from "next-auth";
+import { authOptions } from '../api/auth/[...nextauth]/route';
 import getUserProfile from '@/libs/getUserProfile';
 
-interface ProfileData {
-  name: string;
-  email: string;
-  tel: string;
-  createdAt: string;
-}
+export default async function BookingPage() {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user.token) return null;
 
-export default function BookingPage() {
-  const { data: session } = useSession();
-  const [hospital, setHospital] = useState('');
-
-  console.log(session);
-
-  const handleHospitalChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setHospital(event.target.value as string);
-  };
+  const response = await getUserProfile(session.user.token);
+  const profile = response?.data;
 
   return (
     <div className="container mx-auto">
-      {session && (
+      {profile && (
         <div className="bg-white rounded-md shadow-lg p-6 mb-8">
           <h2 className="text-2xl font-bold mb-4">User Profile</h2>
-          <p><strong>Name:</strong> {session.user.name}</p>
-          <p><strong>Email:</strong> {session.user.email}</p>
+          <p><strong>Name:</strong> {profile.name}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Tel:</strong> {profile.tel}</p>
+          <p><strong>Member Since:</strong> {new Date(profile.createdAt).toLocaleDateString() || 'N/A'}</p>
         </div>
       )}
       <div className="bg-gray-100 rounded-md shadow-lg pb-8 w-full">
@@ -62,8 +52,6 @@ export default function BookingPage() {
             <Select
               labelId="hospital-label"
               id="hospital"
-              value={hospital}
-              onChange={handleHospitalChange}
               label="Select Hospital"
             >
               <MenuItem value="Chula">Chulalongkorn Hospital</MenuItem>
