@@ -17,7 +17,7 @@
     "@mui/x-date-pickers": "^7.14.0",
     "dayjs": "^1.11.13",
     "next": "14.2.5",
-    "next-auth": "^4.24.8",
+    "next-auth": "^4.24.3",
     "react": "^18",
     "react-dom": "^18"
   },

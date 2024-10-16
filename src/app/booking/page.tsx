@@ -6,15 +6,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import DateReserve from '../../components/DateReserve';
-import getServerSession from "next-auth";
-import { authOptions } from '../api/auth/[...nextauth]/route';
-import getUserProfile from '@/libs/getUserProfile';
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import getUserProfile from "@/libs/getUserProfile";
 
 export default async function BookingPage() {
   const session = await getServerSession(authOptions);
-  if (!session || !session.user.token) return null;
+  if (!session) return null;
 
-  const response = await getUserProfile(session.user.token);
+  const token = session.user.token;
+  const response = await getUserProfile(token);
   const profile = response?.data;
 
   return (
