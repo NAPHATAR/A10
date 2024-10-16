@@ -3,7 +3,7 @@ import NextAuthProvider from "@/providers/NextAuthProvider";
 import TopMenu from '../components/TopMenu';
 import "./globals.css";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 
