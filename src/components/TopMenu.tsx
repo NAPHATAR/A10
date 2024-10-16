@@ -28,9 +28,8 @@ export default async function TopMenu() {
         <nav className="flex items-center space-x-1 sm:space-x-2 md:space-x-4 lg:space-x-6">
           <TopMenuItem 
             href="/booking" 
-            className="text-gray-600 hover:text-gray-900 font-medium transition duration-150 ease-in-out"
           >
-            Booking
+            <span className="text-gray-600 hover:text-gray-900 font-medium transition duration-150 ease-in-out">Booking</span>
           </TopMenuItem>
           <TopMenuItem href="/">
             <Image 
